@@ -9,9 +9,9 @@ import {
 } from 'react-icons/fa';
 
 const navItems = [
-  { name: 'العناصر', path: '/items', icon: <FaBoxOpen /> },
+  { name: 'الاصول', path: '/items', icon: <FaBoxOpen /> },
   { name: 'المواقع', path: '/locations', icon: <FaWarehouse /> },
-  { name: 'الحركات', path: '/movements', icon: <FaExchangeAlt /> },
+  { name: 'الجردة ', path: '/movements', icon: <FaExchangeAlt /> },
 ];
 
 export default function Sidebar() {
