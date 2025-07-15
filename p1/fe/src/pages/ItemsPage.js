@@ -66,10 +66,10 @@ export default function ItemsPage() {
 
   return (
     <div className="p-6 text-right">
-      <h2 className="text-2xl font-bold mb-4">العناصر</h2>
+      <h2 className="text-2xl font-bold mb-4">الاصول</h2>
 
       <form onSubmit={handleSubmit} className="mb-6 bg-white p-4 rounded shadow space-y-3">
-        <input className="border p-2 w-full" name="name" placeholder="اسم العنصر" value={form.name} onChange={handleChange} />
+        <input className="border p-2 w-full" name="name" placeholder="اسم الاصل" value={form.name} onChange={handleChange} />
         <input className="border p-2 w-full" name="category" placeholder="الفئة" value={form.category} onChange={handleChange} />
         <input className="border p-2 w-full" name="quantity" type="number" placeholder="الكمية" value={form.quantity} onChange={handleChange} />
         <input className="border p-2 w-full" name="unit" placeholder="الوحدة" value={form.unit} onChange={handleChange} />
