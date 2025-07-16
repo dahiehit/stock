@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  FaHome,
   FaBoxOpen,
   FaWarehouse,
   FaExchangeAlt,
   FaBars,
   FaTimes,
+  FaSearch,
 } from 'react-icons/fa';
 
 const navItems = [
+  { name: 'الرئيسية', path: '/', icon: <FaHome /> },          // <-- Home added here
   { name: 'الاصول', path: '/items', icon: <FaBoxOpen /> },
   { name: 'المواقع', path: '/locations', icon: <FaWarehouse /> },
   { name: 'الجردة', path: '/jarda',  icon: <FaExchangeAlt /> },
+  { name: 'البحث', path: '/search', icon: <FaSearch /> },
 ];
 
 export default function Sidebar() {
@@ -23,7 +27,6 @@ export default function Sidebar() {
   const toggleMobileSidebar = () => setMobileOpen(!mobileOpen);
   const closeMobileSidebar = () => setMobileOpen(false);
 
-  // Detect screen size to switch between mobile/desktop behavior
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -37,7 +40,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ☰ Mobile toggle */}
       {isMobile && (
         <button
           className="fixed top-4 right-4 z-50 bg-blue-600 text-white p-2 rounded shadow"
@@ -47,7 +49,6 @@ export default function Sidebar() {
         </button>
       )}
 
-      {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 h-screen bg-white border-l shadow z-40 overflow-hidden transition-all duration-300 ${
           isOpen ? 'w-64' : 'w-16'
@@ -80,7 +81,6 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Mobile overlay when sidebar is open */}
       {isMobile && mobileOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-30"

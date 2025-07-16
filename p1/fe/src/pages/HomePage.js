@@ -22,6 +22,12 @@ export default function HomePage() {
           <h2 className="text-xl font-semibold mb-2">🔄 الجردة</h2>
           <p className="text-sm text-gray-500">عرض سجل الإدخال والإخراج والتعديلات</p>
         </Link>
+
+
+        <Link to="/search" className="bg-white shadow hover:shadow-md p-6 rounded-lg border text-center">
+          <h2 className="text-xl font-semibold mb-2">🔎 البحث</h2>
+          <p className="text-sm text-gray-500">تصفية العناصر حسب الاسم، الكمية أو الموقع</p>
+        </Link>
       </div>
     </div>
   );

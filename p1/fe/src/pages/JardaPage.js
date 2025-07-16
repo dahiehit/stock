@@ -60,11 +60,11 @@ export default function JardaPage() {
 
   return (
     <div className="p-6 text-right">
-      <h2 className="text-2xl font-bold mb-4">الجردة</h2>
+      <h2 className="text-2xl font-bold mb-4">حركة الاصول</h2>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow mb-6 space-y-3">
         <select name="item" value={form.item} onChange={handleChange} className="w-full border p-2">
-          <option value="">اختر العنصر</option>
+          <option value="">اختر الاصل</option>
           {items.map(item => (
             <option key={item.id} value={item.id}>{item.name}</option>
           ))}

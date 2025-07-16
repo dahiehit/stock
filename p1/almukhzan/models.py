@@ -8,7 +8,17 @@ from django.db import models
 class StorageLocation(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    LOCATION_TYPE_CHOICES = [
+        ('STORAGE', 'مخزن'),
+        ('DISTRIBUTION', 'موقع توزيع'),
+        ('OFFICE', 'مكتب'),
+        ('OTHER', 'آخر'),
+    ]
+    location_type = models.CharField(max_length=20, choices=LOCATION_TYPE_CHOICES, default='STORAGE', verbose_name="نوع الموقع")
 
+    class Meta:
+        verbose_name = "موقع"
+        verbose_name_plural = "المواقع"    
     def __str__(self):
         return self.name
 
@@ -23,8 +33,8 @@ class InventoryItem(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = "عنصر"
-        verbose_name_plural = "العناصر"
+        verbose_name = "الاصل"
+        verbose_name_plural = "الاصول"
 
     def __str__(self):
         return f"{self.name} ({self.quantity} {self.unit})"
@@ -53,10 +63,12 @@ class ItemMovement(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     performed_by = models.CharField(max_length=100)
     note = models.TextField(blank=True)
-
+    class Meta:
+        verbose_name = "نقل أصل"
+        verbose_name_plural = "مناقلات أصول"
     def __str__(self):
         return f"{self.get_movement_type_display()} {self.quantity} من {self.item.name}"
-    
+
 
 class ItemActionLog(models.Model):
     item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE)
@@ -64,6 +76,9 @@ class ItemActionLog(models.Model):
     performed_by = models.CharField(max_length=100)
     timestamp = models.DateTimeField(auto_now_add=True)
     details = models.TextField(blank=True)
+    class Meta:
+        verbose_name = "سجل إجراء"
+        verbose_name_plural = "سجلات الإجراءات"
 
     def __str__(self):
         return f"{self.timestamp} - {self.action} by {self.performed_by}"

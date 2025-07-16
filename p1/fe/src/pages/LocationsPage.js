@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react';
 import locationService from '../services/locationService';
 
+const locationTypeOptions = [
+  { value: 'STORAGE', label: 'مخزن' },
+  { value: 'DISTRIBUTION', label: 'موقع توزيع' },
+  { value: 'OFFICE', label: 'مكتب' },
+  { value: 'OTHER', label: 'آخر' },
+];
+
+// للترجمة السريعة داخل الجدول
+const locationTypeLabels = {
+  STORAGE: 'مخزن',
+  DISTRIBUTION: 'موقع توزيع',
+  OFFICE: 'مكتب',
+  OTHER: 'آخر',
+};
+
 export default function LocationsPage() {
   const [locations, setLocations] = useState([]);
-  const [form, setForm] = useState({ name: '', description: '' });
+  const [form, setForm] = useState({ name: '', description: '', location_type: 'STORAGE' });
   const [editingId, setEditingId] = useState(null);
 
   const loadLocations = () => {
@@ -17,7 +32,8 @@ export default function LocationsPage() {
   }, []);
 
   const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = e => {
@@ -28,35 +44,39 @@ export default function LocationsPage() {
         .then(() => {
           resetForm();
           loadLocations();
-        });
+        })
+        .catch(err => console.error(err));
     } else {
       locationService.create(form)
         .then(() => {
           resetForm();
           loadLocations();
-        });
+        })
+        .catch(err => console.error(err));
     }
   };
 
   const handleEdit = loc => {
-    setForm({ name: loc.name, description: loc.description });
+    setForm({ name: loc.name, description: loc.description, location_type: loc.location_type || 'STORAGE' });
     setEditingId(loc.id);
   };
 
   const handleDelete = id => {
     if (window.confirm('هل تريد حذف هذا الموقع؟')) {
-      locationService.delete(id).then(loadLocations);
+      locationService.delete(id)
+        .then(loadLocations)
+        .catch(err => console.error(err));
     }
   };
 
   const resetForm = () => {
-    setForm({ name: '', description: '' });
+    setForm({ name: '', description: '', location_type: 'STORAGE' });
     setEditingId(null);
   };
 
   return (
     <div className="p-6 text-right">
-      <h2 className="text-2xl font-bold mb-4">المواقع التخزينية</h2>
+      <h2 className="text-2xl font-bold mb-4">المواقع </h2>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow mb-6 space-y-3">
         <input
@@ -65,7 +85,9 @@ export default function LocationsPage() {
           value={form.name}
           onChange={handleChange}
           className="border p-2 w-full"
+          required
         />
+
         <textarea
           name="description"
           placeholder="الوصف"
@@ -73,6 +95,21 @@ export default function LocationsPage() {
           onChange={handleChange}
           className="border p-2 w-full"
         ></textarea>
+
+        <select
+          name="location_type"
+          value={form.location_type}
+          onChange={handleChange}
+          className="border p-2 w-full"
+          required
+        >
+          {locationTypeOptions.map(opt => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+
         <div className="flex justify-end gap-4">
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
             {editingId ? 'تحديث' : 'إضافة'}
@@ -90,6 +127,7 @@ export default function LocationsPage() {
           <tr>
             <th className="p-2">الاسم</th>
             <th className="p-2">الوصف</th>
+            <th className="p-2">نوع الموقع</th>
             <th className="p-2">العمليات</th>
           </tr>
         </thead>
@@ -98,6 +136,7 @@ export default function LocationsPage() {
             <tr key={loc.id} className="border-t">
               <td className="p-2">{loc.name}</td>
               <td className="p-2">{loc.description}</td>
+              <td className="p-2">{locationTypeLabels[loc.location_type] || loc.location_type}</td>
               <td className="p-2 space-x-2">
                 <button onClick={() => handleEdit(loc)} className="bg-yellow-500 text-white px-3 py-1 rounded">
                   تعديل
