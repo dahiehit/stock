@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import ItemsPage from './pages/ItemsPage';
 import LocationsPage from './pages/LocationsPage';
-import MovementsPage from './pages/MovementsPage';
+import JardaPage from './pages/JardaPage'; // ✅ FIXED: correct name
 
 function App() {
   return (
@@ -17,7 +17,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/items" element={<ItemsPage />} />
             <Route path="/locations" element={<LocationsPage />} />
-            <Route path="/movements" element={<MovementsPage />} />
+            <Route path="/jarda" element={<JardaPage />} />
+            
           </Routes>
         </div>
       </div>

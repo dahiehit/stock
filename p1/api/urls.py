@@ -1,7 +1,9 @@
+# project/urls.py
 
-from django.urls import path
-from .views import hello_world
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('hello/', hello_world, name='hello_world'),
+    path('admin/', admin.site.urls),
+    path('api/', include('almukhzan.urls')),  # only here!
 ]

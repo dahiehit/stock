@@ -1,8 +1,9 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   return (
-    <div className="p-6 text-right">
+    <div dir="rtl" className="p-6 text-right">
       <h1 className="text-3xl font-bold mb-6">مرحبًا بك في برنامج الأصول والمخزن للاتحاد</h1>
       <p className="text-gray-600 mb-8">اختر خدمة للبدء في إدارة الموجودات:</p>
 
@@ -17,8 +18,8 @@ export default function HomePage() {
           <p className="text-sm text-gray-500">إدارة المواقع التخزينية</p>
         </Link>
 
-        <Link to="/movements" className="bg-white shadow hover:shadow-md p-6 rounded-lg border text-center">
-          <h2 className="text-xl font-semibold mb-2">🔄 الحركة</h2>
+        <Link to="/jarda" className="bg-white shadow hover:shadow-md p-6 rounded-lg border text-center">
+          <h2 className="text-xl font-semibold mb-2">🔄 الجردة</h2>
           <p className="text-sm text-gray-500">عرض سجل الإدخال والإخراج والتعديلات</p>
         </Link>
       </div>

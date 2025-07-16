@@ -26,7 +26,13 @@ SECRET_KEY = 'django-insecure-dqpi#x$m^@wod2m!v3a5prhh)bgpcfz4l2j*k*$*w)9%sx07%0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        'http://localhost:3000',
+        'localhost',
+        '127.0.0.1',
+        'localhost:8000',
+
+]
 
 
 # Application definition
@@ -40,17 +46,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'almukhzan',
+    'corsheaders',
+
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    
 ]
 
 ROOT_URLCONF = 'p1.urls'
@@ -128,3 +139,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'fe/build/static'),  # Updated path
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
