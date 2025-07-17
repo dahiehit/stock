@@ -3,7 +3,26 @@ from io import BytesIO
 from django.core.files import File
 from django.db import models
 
+class Unit(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="الوحدة")
 
+    class Meta:
+        verbose_name = "وحدة"
+        verbose_name_plural = "الوحدات"
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="الفئة")
+
+    class Meta:
+        verbose_name = "فئة"
+        verbose_name_plural = "الفئات"
+
+    def __str__(self):
+        return self.name
 
 class StorageLocation(models.Model):
     name = models.CharField(max_length=100)
@@ -26,9 +45,9 @@ class StorageLocation(models.Model):
 
 class InventoryItem(models.Model):
     name = models.CharField("اسم العنصر", max_length=100)
-    category = models.CharField("الفئة", max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="الفئة")
     quantity = models.PositiveIntegerField("الكمية")
-    unit = models.CharField("الوحدة", max_length=20)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, verbose_name="الوحدة")
     location = models.ForeignKey(StorageLocation, verbose_name="الموقع", on_delete=models.CASCADE)
     notes = models.TextField("ملاحظات", blank=True)
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True)
@@ -84,3 +103,5 @@ class ItemActionLog(models.Model):
 
     def __str__(self):
         return f"{self.timestamp} - {self.action} by {self.performed_by}"
+
+

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import StorageLocation, InventoryItem, ItemMovement
-from .serializers import StorageLocationSerializer, InventoryItemSerializer, ItemMovementSerializer
+from .models import StorageLocation, InventoryItem, ItemMovement, Unit, Category
+from .serializers import StorageLocationSerializer, InventoryItemSerializer, ItemMovementSerializer,  UnitSerializer, CategorySerializer
+
 
 class StorageLocationViewSet(viewsets.ModelViewSet):
     queryset = StorageLocation.objects.all()
@@ -15,3 +16,11 @@ class ItemMovementViewSet(viewsets.ModelViewSet):
     queryset = ItemMovement.objects.all()
     serializer_class = ItemMovementSerializer
 
+
+class UnitViewSet(viewsets.ModelViewSet):
+    queryset = Unit.objects.all()
+    serializer_class = UnitSerializer
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

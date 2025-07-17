@@ -5,6 +5,8 @@ import ItemsPage from './pages/ItemsPage';
 import LocationsPage from './pages/LocationsPage';
 import JardaPage from './pages/JardaPage'; // ✅ FIXED: correct name
 import ItemsSearchPage from './pages/ItemsSearchPage';
+import CategoryPage from './pages/CategoryPage';
+import UnitPage from './pages/UnitPage';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/locations" element={<LocationsPage />} />
             <Route path="/jarda" element={<JardaPage />} />
             <Route path="/search" element={<ItemsSearchPage />} />
+            <Route path="/categories" element={<CategoryPage />} />
+            <Route path="/units" element={<UnitPage />} />
 
           </Routes>
         </div>

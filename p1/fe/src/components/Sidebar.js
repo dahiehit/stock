@@ -8,6 +8,10 @@ import {
   FaBars,
   FaTimes,
   FaSearch,
+  FaTag,         
+  FaUserShield,  
+   // ← الأيقونة الجديدة
+
 } from 'react-icons/fa';
 
 const navItems = [
@@ -16,6 +20,8 @@ const navItems = [
   { name: 'المواقع', path: '/locations', icon: <FaWarehouse /> },
   { name: 'الجردة', path: '/jarda',  icon: <FaExchangeAlt /> },
   { name: 'البحث', path: '/search', icon: <FaSearch /> },
+  { name: 'الفئات', path: '/categories', icon: <FaTag /> },
+  { name: 'الوحدات', path: '/units', icon: <FaUserShield /> },
 ];
 
 export default function Sidebar() {
