@@ -7,6 +7,9 @@ import JardaPage from './pages/JardaPage'; // ✅ FIXED: correct name
 import ItemsSearchPage from './pages/ItemsSearchPage';
 import CategoryPage from './pages/CategoryPage';
 import UnitPage from './pages/UnitPage';
+import EmployeesPage from "./pages/EmployeesPage";
+
+
 
 function App() {
   return (
@@ -24,7 +27,7 @@ function App() {
             <Route path="/search" element={<ItemsSearchPage />} />
             <Route path="/categories" element={<CategoryPage />} />
             <Route path="/units" element={<UnitPage />} />
-
+            <Route path="/employees" element={<EmployeesPage />} />
           </Routes>
         </div>
       </div>

@@ -7,7 +7,7 @@ class StorageLocationAdmin(admin.ModelAdmin):
 
 @admin.register(InventoryItem)
 class InventoryItemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'quantity', 'unit', 'location']
+    list_display = ['name', 'category', 'quantity', 'location']
     search_fields = ['name', 'category']
     list_filter = ['category', 'location']
 

@@ -36,22 +36,39 @@ class StorageLocation(models.Model):
         ('OTHER', 'آخر'),
     ]
     location_type = models.CharField(max_length=20, choices=LOCATION_TYPE_CHOICES, default='STORAGE', verbose_name="نوع الموقع")
-
+    unit = models.ForeignKey(
+        "Unit",
+        on_delete=models.CASCADE,
+        related_name="locations",
+        verbose_name="الوحدة الادارية",
+        null=True,
+        blank=True
+    )
     class Meta:
         verbose_name = "موقع"
         verbose_name_plural = "المواقع"    
     def __str__(self):
         return self.name
 
+class Employee(models.Model):
+    name = models.CharField(max_length=100)
+    unit = models.ForeignKey(Unit, on_delete=models.SET_NULL, null=True, related_name="employees")
+
+
+    def __str__(self):
+        return f"{self.name} ({self.unit.name if self.unit else 'بدون وحدة'})"
+    
+
 class InventoryItem(models.Model):
     name = models.CharField("اسم العنصر", max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="الفئة")
     quantity = models.PositiveIntegerField("الكمية")
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, verbose_name="الوحدة")
     location = models.ForeignKey(StorageLocation, verbose_name="الموقع", on_delete=models.CASCADE)
     notes = models.TextField("ملاحظات", blank=True)
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True)
     is_active = models.BooleanField(default=True)
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
+    barcode = models.CharField(max_length=100, blank=True, null=True)  # ✅ باركود
 
     class Meta:
         verbose_name = "الاصل"
@@ -61,12 +78,16 @@ class InventoryItem(models.Model):
         return f"{self.name} ({self.quantity} {self.unit})"
     
     def save(self, *args, **kwargs):
-        qr_data = f"Item: {self.name}, ID: {self.id}, Location: {self.location.name}"
-        qr = qrcode.make(qr_data)
-        buffer = BytesIO()
-        qr.save(buffer, format='PNG')
-        self.qr_code.save(f"{self.name}_qr.png", File(buffer), save=False)
+        is_new = self.pk is None
         super().save(*args, **kwargs)
+        if is_new:
+            qr_data = f"Item: {self.name}, ID: {self.id}, Location: {self.location.name}"
+            qr = qrcode.make(qr_data)
+            buffer = BytesIO()
+            qr.save(buffer, format='PNG')
+            self.qr_code.save(f"{self.name}_qr.png", File(buffer), save=False)
+            super().save(update_fields=['qr_code'])
+
 
     def delete(self, *args, **kwargs):
         self.is_active = False
@@ -105,3 +126,7 @@ class ItemActionLog(models.Model):
         return f"{self.timestamp} - {self.action} by {self.performed_by}"
 
 
+class ItemImage(models.Model):
+    item = models.ForeignKey(InventoryItem, related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="item_images/")  # ✅ رفع صور
+    uploaded_at = models.DateTimeField(auto_now_add=True)

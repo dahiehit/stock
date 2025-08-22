@@ -8,20 +8,21 @@ import {
   FaBars,
   FaTimes,
   FaSearch,
-  FaTag,         
-  FaUserShield,  
-   // ← الأيقونة الجديدة
-
+  FaTag,
+  FaUserShield,
+  FaUsers,        // ✅ أيقونة الموظفين
 } from 'react-icons/fa';
 
 const navItems = [
-  { name: 'الرئيسية', path: '/', icon: <FaHome /> },          // <-- Home added here
+  { name: 'الرئيسية', path: '/', icon: <FaHome /> },
   { name: 'الاصول', path: '/items', icon: <FaBoxOpen /> },
   { name: 'المواقع', path: '/locations', icon: <FaWarehouse /> },
-  { name: 'الجردة', path: '/jarda',  icon: <FaExchangeAlt /> },
-  { name: 'البحث', path: '/search', icon: <FaSearch /> },
+  { name: 'الجردة', path: '/jarda', icon: <FaExchangeAlt /> },
+
   { name: 'الفئات', path: '/categories', icon: <FaTag /> },
   { name: 'الوحدات', path: '/units', icon: <FaUserShield /> },
+  { name: 'الموظفون', path: '/employees', icon: <FaUsers /> }, // ✅ تمت الإضافة
+    { name: 'البحث', path: '/search', icon: <FaSearch /> },
 ];
 
 export default function Sidebar() {
@@ -79,7 +80,11 @@ export default function Sidebar() {
               }`}
             >
               <span className="text-xl">{item.icon}</span>
-              <span className={`${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
+              <span
+                className={`${
+                  isOpen ? 'opacity-100' : 'opacity-0'
+                } transition-opacity duration-300`}
+              >
                 {item.name}
               </span>
             </Link>

@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
 import locationService from '../services/locationService';
+import unitService from '../services/unitService';
 
 const LOCATION_TYPE_OPTIONS = [
   { value: 'STORAGE', label: 'مخزن' },
   { value: 'DISTRIBUTION', label: 'موقع توزيع' },
   { value: 'OFFICE', label: 'مكتب' },
-  { value: 'HALL', label: 'قاعة' },   // <--- new option added here
+  { value: 'HALL', label: 'قاعة' },
   { value: 'OTHER', label: 'آخر' },
 ];
 
 export default function LocationsPage() {
   const [locations, setLocations] = useState([]);
+  const [units, setUnits] = useState([]);
   const [form, setForm] = useState({
     name: '',
     description: '',
-    location_type: 'STORAGE',  // default value
+    location_type: 'STORAGE',
+    unit: '',
   });
   const [editingId, setEditingId] = useState(null);
+
+  useEffect(() => {
+    loadLocations();
+    loadUnits();
+  }, []);
 
   const loadLocations = () => {
     locationService.getAll()
@@ -24,39 +32,48 @@ export default function LocationsPage() {
       .catch(err => console.error(err));
   };
 
-  useEffect(() => {
-    loadLocations();
-  }, []);
+  const loadUnits = () => {
+    unitService.getAll()
+      .then(res => setUnits(res.data))
+      .catch(err => console.error(err));
+  };
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-
-    if (editingId) {
-      locationService.update(editingId, form)
-        .then(() => {
-          resetForm();
-          loadLocations();
-        })
-        .catch(err => console.error(err));
-    } else {
-      locationService.create(form)
-        .then(() => {
-          resetForm();
-          loadLocations();
-        })
-        .catch(err => console.error(err));
-    }
+const handleSubmit = e => {
+  e.preventDefault();
+  
+  const payload = {
+    ...form,
+    unit_id: form.unit || null,  // <-- هنا نرسل unit_id
   };
+
+  if (editingId) {
+    locationService.update(editingId, payload)
+      .then(() => {
+        resetForm();
+        loadLocations();
+      })
+      .catch(err => console.error(err));
+  } else {
+    locationService.create(payload)
+      .then(() => {
+        resetForm();
+        loadLocations();
+      })
+      .catch(err => console.error(err));
+  }
+};
+
 
   const handleEdit = loc => {
     setForm({
       name: loc.name,
       description: loc.description,
       location_type: loc.location_type || 'STORAGE',
+      unit: loc.unit?.id || '',
     });
     setEditingId(loc.id);
   };
@@ -68,7 +85,7 @@ export default function LocationsPage() {
   };
 
   const resetForm = () => {
-    setForm({ name: '', description: '', location_type: 'STORAGE' });
+    setForm({ name: '', description: '', location_type: 'STORAGE', unit: '' });
     setEditingId(null);
   };
 
@@ -83,6 +100,7 @@ export default function LocationsPage() {
           value={form.name}
           onChange={handleChange}
           className="border p-2 w-full"
+          required
         />
         <textarea
           name="description"
@@ -100,6 +118,18 @@ export default function LocationsPage() {
         >
           {LOCATION_TYPE_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+
+        <select
+          name="unit"
+          value={form.unit}
+          onChange={handleChange}
+          className="border p-2 w-full"
+        >
+          <option value="">اختر الوحدة الإدارية</option>
+          {units.map(u => (
+            <option key={u.id} value={u.id}>{u.name}</option>
           ))}
         </select>
 
@@ -121,6 +151,7 @@ export default function LocationsPage() {
             <th className="p-2">الاسم</th>
             <th className="p-2">الوصف</th>
             <th className="p-2">نوع الموقع</th>
+            <th className="p-2">الوحدة الإدارية</th>
             <th className="p-2">العمليات</th>
           </tr>
         </thead>
@@ -129,7 +160,10 @@ export default function LocationsPage() {
             <tr key={loc.id} className="border-t">
               <td className="p-2">{loc.name}</td>
               <td className="p-2">{loc.description}</td>
-              <td className="p-2">{loc.location_type}</td> {/* You might want to map value to label here */}
+              <td className="p-2">
+                {LOCATION_TYPE_OPTIONS.find(opt => opt.value === loc.location_type)?.label || loc.location_type}
+              </td>
+              <td className="p-2">{loc.unit?.name || '-'}</td>
               <td className="p-2 space-x-2">
                 <button onClick={() => handleEdit(loc)} className="bg-yellow-500 text-white px-3 py-1 rounded">
                   تعديل
