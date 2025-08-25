@@ -17,7 +17,6 @@ const navItems = [
   { name: 'الرئيسية', path: '/', icon: <FaHome /> },
   { name: 'الاصول', path: '/items', icon: <FaBoxOpen /> },
   { name: 'المواقع', path: '/locations', icon: <FaWarehouse /> },
-  { name: 'الجردة', path: '/jarda', icon: <FaExchangeAlt /> },
 
   { name: 'الفئات', path: '/categories', icon: <FaTag /> },
   { name: 'الوحدات', path: '/units', icon: <FaUserShield /> },

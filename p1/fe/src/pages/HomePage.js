@@ -30,15 +30,6 @@ export default function HomePage() {
           <p className="text-sm text-gray-500">إدارة مواقع الاصول</p>
         </Link>
 
-        <Link
-          to="/jarda"
-          className="bg-white shadow hover:shadow-md p-6 rounded-lg border text-center"
-        >
-          <h2 className="text-xl font-semibold mb-2">🔄 الجردة</h2>
-          <p className="text-sm text-gray-500">
-            عرض سجل الإدخال والإخراج والتعديلات
-          </p>
-        </Link>
 
 
 

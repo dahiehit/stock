@@ -3,7 +3,6 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import ItemsPage from './pages/ItemsPage';
 import LocationsPage from './pages/LocationsPage';
-import JardaPage from './pages/JardaPage'; // ✅ FIXED: correct name
 import ItemsSearchPage from './pages/ItemsSearchPage';
 import CategoryPage from './pages/CategoryPage';
 import UnitPage from './pages/UnitPage';
@@ -23,7 +22,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/items" element={<ItemsPage />} />
             <Route path="/locations" element={<LocationsPage />} />
-            <Route path="/jarda" element={<JardaPage />} />
             <Route path="/search" element={<ItemsSearchPage />} />
             <Route path="/categories" element={<CategoryPage />} />
             <Route path="/units" element={<UnitPage />} />
